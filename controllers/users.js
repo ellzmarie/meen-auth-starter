@@ -10,13 +10,21 @@ const hashedString = bcrypt.hashSync("yourPasswordStringHere", bcrypt.genSaltSyn
 
 // Create (registration route)
 
-// Export User Router
-module.exports = userRouter
-
 userRouter.post("/", (req, res) => {
     console.log(req.body)
     //overwrite the user password with the hashed password, then pass that in to our database
     req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
-    res.send(req.body)
-  })
+    User.create(req.body, (error, createdUser) => {
+        res.redirect("/")
 
+    // CREATE USER
+    // User.create(req.body, (error, createdUser) => {
+    //     res.send(createdUser)
+  })
+})
+
+// Export User Router
+module.exports = userRouter
+
+
+        
