@@ -31,10 +31,11 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
 // Routes / Controllers
+//Root  URL/PATH
 app.get("/", (req, res) => {
     res.render("index.ejs")
   })
-  
+
 const userController = require("./controllers/users")
 app.use("/users", userController)
 
