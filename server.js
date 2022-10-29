@@ -5,6 +5,8 @@ const mongoose = require("mongoose")
 require('dotenv').config()
 const PORT = process.env.PORT
 const session = require("express-session")
+const methodOverride = require("method-override")
+
 
 mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
@@ -26,6 +28,9 @@ app.use(
     })
   )
 
+app.use(methodOverride("_method"))
+
+
 // Body parser middleware: give us access to req.body
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
@@ -33,7 +38,15 @@ app.use(express.static('public'))
 // Routes / Controllers
 //Root  URL/PATH
 app.get("/", (req, res) => {
-    res.render("index.ejs")
+    if (req.session.currentUser) {
+      res.render("dashboard.ejs", {
+        currentUser: req.session.currentUser,
+      })
+    } else {
+      res.render("index.ejs", {
+        currentUser: req.session.currentUser,
+      })
+    }
   })
 
 const userController = require("./controllers/users")

@@ -7,9 +7,13 @@ const hashedString = bcrypt.hashSync("yourPasswordStringHere", bcrypt.genSaltSyn
 
 
 // New (registration page)
+userRouter.get("/new", (req, res) => {
+    res.render("users/new.ejs", {
+      currentUser: req.session.currentUser,
+    })
+  })
 
 // Create (registration route)
-
 userRouter.post("/", (req, res) => {
     console.log(req.body)
     //overwrite the user password with the hashed password, then pass that in to our database
